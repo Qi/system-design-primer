@@ -95,87 +95,175 @@ Review the [Contributing Guidelines](CONTRIBUTING.md).
   <br/>
 </p>
 
-* [System design topics: start here](#system-design-topics-start-here)
-    * [Step 1: Review the scalability video lecture](#step-1-review-the-scalability-video-lecture)
-    * [Step 2: Review the scalability article](#step-2-review-the-scalability-article)
-    * [Next steps](#next-steps)
-* [Performance vs scalability](#performance-vs-scalability)
-* [Latency vs throughput](#latency-vs-throughput)
-* [Availability vs consistency](#availability-vs-consistency)
-    * [CAP theorem](#cap-theorem)
-        * [CP - consistency and partition tolerance](#cp---consistency-and-partition-tolerance)
-        * [AP - availability and partition tolerance](#ap---availability-and-partition-tolerance)
-* [Consistency patterns](#consistency-patterns)
-    * [Weak consistency](#weak-consistency)
-    * [Eventual consistency](#eventual-consistency)
-    * [Strong consistency](#strong-consistency)
-* [Availability patterns](#availability-patterns)
-    * [Fail-over](#fail-over)
-    * [Replication](#replication)
-    * [Availability in numbers](#availability-in-numbers)
-* [Domain name system](#domain-name-system)
-* [Content delivery network](#content-delivery-network)
-    * [Push CDNs](#push-cdns)
-    * [Pull CDNs](#pull-cdns)
-* [Load balancer](#load-balancer)
-    * [Active-passive](#active-passive)
-    * [Active-active](#active-active)
-    * [Layer 4 load balancing](#layer-4-load-balancing)
-    * [Layer 7 load balancing](#layer-7-load-balancing)
-    * [Horizontal scaling](#horizontal-scaling)
-* [Reverse proxy (web server)](#reverse-proxy-web-server)
-    * [Load balancer vs reverse proxy](#load-balancer-vs-reverse-proxy)
-* [Application layer](#application-layer)
-    * [Microservices](#microservices)
-    * [Service discovery](#service-discovery)
-* [Database](#database)
-    * [Relational database management system (RDBMS)](#relational-database-management-system-rdbms)
-        * [Master-slave replication](#master-slave-replication)
-        * [Master-master replication](#master-master-replication)
-        * [Federation](#federation)
-        * [Sharding](#sharding)
-        * [Denormalization](#denormalization)
-        * [SQL tuning](#sql-tuning)
-    * [NoSQL](#nosql)
-        * [Key-value store](#key-value-store)
-        * [Document store](#document-store)
-        * [Wide column store](#wide-column-store)
-        * [Graph Database](#graph-database)
-    * [SQL or NoSQL](#sql-or-nosql)
-* [Cache](#cache)
-    * [Client caching](#client-caching)
-    * [CDN caching](#cdn-caching)
-    * [Web server caching](#web-server-caching)
-    * [Database caching](#database-caching)
-    * [Application caching](#application-caching)
-    * [Caching at the database query level](#caching-at-the-database-query-level)
-    * [Caching at the object level](#caching-at-the-object-level)
-    * [When to update the cache](#when-to-update-the-cache)
-        * [Cache-aside](#cache-aside)
-        * [Write-through](#write-through)
-        * [Write-behind (write-back)](#write-behind-write-back)
-        * [Refresh-ahead](#refresh-ahead)
-* [Asynchronism](#asynchronism)
-    * [Message queues](#message-queues)
-    * [Task queues](#task-queues)
-    * [Back pressure](#back-pressure)
-* [Communication](#communication)
-    * [Transmission control protocol (TCP)](#transmission-control-protocol-tcp)
-    * [User datagram protocol (UDP)](#user-datagram-protocol-udp)
-    * [Remote procedure call (RPC)](#remote-procedure-call-rpc)
-    * [Representational state transfer (REST)](#representational-state-transfer-rest)
-* [Security](#security)
-* [Appendix](#appendix)
-    * [Powers of two table](#powers-of-two-table)
-    * [Latency numbers every programmer should know](#latency-numbers-every-programmer-should-know)
-    * [Additional system design interview questions](#additional-system-design-interview-questions)
-    * [Real world architectures](#real-world-architectures)
-    * [Company architectures](#company-architectures)
-    * [Company engineering blogs](#company-engineering-blogs)
-* [Under development](#under-development)
-* [Credits](#credits)
-* [Contact info](#contact-info)
-* [License](#license)
+- [The System Design Primer](#the-system-design-primer)
+  - [Motivation](#motivation)
+    - [Learn how to design large-scale systems](#learn-how-to-design-large-scale-systems)
+    - [Learn from the open source community](#learn-from-the-open-source-community)
+    - [Prep for the system design interview](#prep-for-the-system-design-interview)
+  - [Anki flashcards](#anki-flashcards)
+    - [Coding Resource: Interactive Coding Challenges](#coding-resource-interactive-coding-challenges)
+  - [Contributing](#contributing)
+  - [Index of system design topics](#index-of-system-design-topics)
+  - [Study guide](#study-guide)
+  - [How to approach a system design interview question](#how-to-approach-a-system-design-interview-question)
+    - [Step 1: Outline use cases, constraints, and assumptions](#step-1-outline-use-cases-constraints-and-assumptions)
+    - [Step 2: Create a high level design](#step-2-create-a-high-level-design)
+    - [Step 3: Design core components](#step-3-design-core-components)
+    - [Step 4: Scale the design](#step-4-scale-the-design)
+    - [Back-of-the-envelope calculations](#back-of-the-envelope-calculations)
+    - [Source(s) and further reading](#sources-and-further-reading)
+  - [System design interview questions with solutions](#system-design-interview-questions-with-solutions)
+    - [Design Pastebin.com (or Bit.ly)](#design-pastebincom-or-bitly)
+    - [Design the Twitter timeline and search (or Facebook feed and search)](#design-the-twitter-timeline-and-search-or-facebook-feed-and-search)
+    - [Design a web crawler](#design-a-web-crawler)
+    - [Design Mint.com](#design-mintcom)
+    - [Design the data structures for a social network](#design-the-data-structures-for-a-social-network)
+    - [Design a key-value store for a search engine](#design-a-key-value-store-for-a-search-engine)
+    - [Design Amazon's sales ranking by category feature](#design-amazons-sales-ranking-by-category-feature)
+    - [Design a system that scales to millions of users on AWS](#design-a-system-that-scales-to-millions-of-users-on-aws)
+  - [Object-oriented design interview questions with solutions](#object-oriented-design-interview-questions-with-solutions)
+  - [System design topics: start here](#system-design-topics-start-here)
+    - [Step 1: Review the scalability video lecture](#step-1-review-the-scalability-video-lecture)
+    - [Step 2: Review the scalability article](#step-2-review-the-scalability-article)
+    - [Next steps](#next-steps)
+  - [Performance vs scalability](#performance-vs-scalability)
+    - [Source(s) and further reading](#sources-and-further-reading-1)
+  - [Latency vs throughput](#latency-vs-throughput)
+    - [Source(s) and further reading](#sources-and-further-reading-2)
+  - [Availability vs consistency](#availability-vs-consistency)
+    - [CAP theorem](#cap-theorem)
+      - [CP - consistency and partition tolerance](#cp---consistency-and-partition-tolerance)
+      - [AP - availability and partition tolerance](#ap---availability-and-partition-tolerance)
+    - [Source(s) and further reading](#sources-and-further-reading-3)
+  - [Consistency patterns](#consistency-patterns)
+    - [Weak consistency](#weak-consistency)
+    - [Eventual consistency](#eventual-consistency)
+    - [Strong consistency](#strong-consistency)
+    - [Source(s) and further reading](#sources-and-further-reading-4)
+  - [Availability patterns](#availability-patterns)
+    - [Fail-over](#fail-over)
+      - [Active-passive](#active-passive)
+      - [Active-active](#active-active)
+    - [Disadvantage(s): failover](#disadvantages-failover)
+    - [Replication](#replication)
+      - [Master-slave and master-master](#master-slave-and-master-master)
+    - [Availability in numbers](#availability-in-numbers)
+      - [99.9% availability - three 9s](#999-availability---three-9s)
+      - [99.99% availability - four 9s](#9999-availability---four-9s)
+      - [Availability in parallel vs in sequence](#availability-in-parallel-vs-in-sequence)
+          - [In sequence](#in-sequence)
+          - [In parallel](#in-parallel)
+  - [Domain name system](#domain-name-system)
+    - [Disadvantage(s): DNS](#disadvantages-dns)
+    - [Source(s) and further reading](#sources-and-further-reading-5)
+  - [Content delivery network](#content-delivery-network)
+    - [Push CDNs](#push-cdns)
+    - [Pull CDNs](#pull-cdns)
+    - [Disadvantage(s): CDN](#disadvantages-cdn)
+    - [Source(s) and further reading](#sources-and-further-reading-6)
+  - [Load balancer](#load-balancer)
+    - [Layer 4 load balancing](#layer-4-load-balancing)
+    - [Layer 7 load balancing](#layer-7-load-balancing)
+    - [Horizontal scaling](#horizontal-scaling)
+      - [Disadvantage(s): horizontal scaling](#disadvantages-horizontal-scaling)
+    - [Disadvantage(s): load balancer](#disadvantages-load-balancer)
+    - [Source(s) and further reading](#sources-and-further-reading-7)
+  - [Reverse proxy (web server)](#reverse-proxy-web-server)
+    - [Load balancer vs reverse proxy](#load-balancer-vs-reverse-proxy)
+    - [Disadvantage(s): reverse proxy](#disadvantages-reverse-proxy)
+    - [Source(s) and further reading](#sources-and-further-reading-8)
+  - [Application layer](#application-layer)
+    - [Microservices](#microservices)
+    - [Service Discovery](#service-discovery)
+    - [Disadvantage(s): application layer](#disadvantages-application-layer)
+    - [Source(s) and further reading](#sources-and-further-reading-9)
+  - [Database](#database)
+    - [Relational database management system (RDBMS)](#relational-database-management-system-rdbms)
+      - [Master-slave replication](#master-slave-replication)
+        - [Disadvantage(s): master-slave replication](#disadvantages-master-slave-replication)
+      - [Master-master replication](#master-master-replication)
+        - [Disadvantage(s): master-master replication](#disadvantages-master-master-replication)
+        - [Disadvantage(s): replication](#disadvantages-replication)
+        - [Source(s) and further reading: replication](#sources-and-further-reading-replication)
+      - [Federation](#federation)
+        - [Disadvantage(s): federation](#disadvantages-federation)
+        - [Source(s) and further reading: federation](#sources-and-further-reading-federation)
+      - [Sharding](#sharding)
+        - [Disadvantage(s): sharding](#disadvantages-sharding)
+        - [Source(s) and further reading: sharding](#sources-and-further-reading-sharding)
+      - [Denormalization](#denormalization)
+        - [Disadvantage(s): denormalization](#disadvantages-denormalization)
+          - [Source(s) and further reading: denormalization](#sources-and-further-reading-denormalization)
+      - [~~SQL tuning~~](#sql-tuning)
+    - [NoSQL](#nosql)
+      - [Key-value store](#key-value-store)
+        - [Source(s) and further reading: key-value store](#sources-and-further-reading-key-value-store)
+      - [Document store](#document-store)
+        - [Source(s) and further reading: document store](#sources-and-further-reading-document-store)
+      - [Wide column store](#wide-column-store)
+        - [Source(s) and further reading: wide column store](#sources-and-further-reading-wide-column-store)
+      - [~~Graph database~~](#graph-database)
+      - [Source(s) and further reading: NoSQL](#sources-and-further-reading-nosql)
+    - [SQL or NoSQL](#sql-or-nosql)
+        - [Source(s) and further reading: SQL or NoSQL](#sources-and-further-reading-sql-or-nosql)
+  - [Cache](#cache)
+    - [Client caching](#client-caching)
+    - [CDN caching](#cdn-caching)
+    - [Web server caching](#web-server-caching)
+    - [Database caching](#database-caching)
+    - [Application caching](#application-caching)
+    - [Caching at the database query level](#caching-at-the-database-query-level)
+    - [Caching at the object level](#caching-at-the-object-level)
+    - [When to update the cache](#when-to-update-the-cache)
+      - [Cache-aside](#cache-aside)
+        - [Disadvantage(s): cache-aside](#disadvantages-cache-aside)
+      - [Write-through](#write-through)
+        - [Disadvantage(s): write through](#disadvantages-write-through)
+      - [Write-behind (write-back)](#write-behind-write-back)
+        - [Disadvantage(s): write-behind](#disadvantages-write-behind)
+      - [Refresh-ahead](#refresh-ahead)
+        - [Disadvantage(s): refresh-ahead](#disadvantages-refresh-ahead)
+    - [Disadvantage(s): cache](#disadvantages-cache)
+    - [Source(s) and further reading](#sources-and-further-reading-10)
+- [***Everything after here is optional***](#everything-after-here-is-optional)
+- [***Everything after here is optional***](#everything-after-here-is-optional-1)
+- [***Everything after here is optional***](#everything-after-here-is-optional-2)
+  - [# ***Everything after here is optional***](#everything-after-here-is-optional)
+  - [Asynchronism](#asynchronism)
+    - [Message queues](#message-queues)
+    - [Task queues](#task-queues)
+    - [Back pressure](#back-pressure)
+    - [Disadvantage(s): asynchronism](#disadvantages-asynchronism)
+    - [Source(s) and further reading](#sources-and-further-reading-11)
+  - [Communication](#communication)
+    - [Hypertext transfer protocol (HTTP)](#hypertext-transfer-protocol-http)
+      - [Source(s) and further reading: HTTP](#sources-and-further-reading-http)
+    - [Transmission control protocol (TCP)](#transmission-control-protocol-tcp)
+    - [User datagram protocol (UDP)](#user-datagram-protocol-udp)
+      - [Source(s) and further reading: TCP and UDP](#sources-and-further-reading-tcp-and-udp)
+    - [Remote procedure call (RPC)](#remote-procedure-call-rpc)
+      - [Disadvantage(s): RPC](#disadvantages-rpc)
+    - [Representational state transfer (REST)](#representational-state-transfer-rest)
+      - [Disadvantage(s): REST](#disadvantages-rest)
+    - [RPC and REST calls comparison](#rpc-and-rest-calls-comparison)
+      - [Source(s) and further reading: REST and RPC](#sources-and-further-reading-rest-and-rpc)
+  - [Security](#security)
+    - [Source(s) and further reading](#sources-and-further-reading-12)
+  - [Appendix](#appendix)
+    - [Powers of two table](#powers-of-two-table)
+      - [Source(s) and further reading](#sources-and-further-reading-13)
+    - [Latency numbers every programmer should know](#latency-numbers-every-programmer-should-know)
+      - [Latency numbers visualized](#latency-numbers-visualized)
+      - [Source(s) and further reading](#sources-and-further-reading-14)
+    - [Additional system design interview questions](#additional-system-design-interview-questions)
+    - [Real world architectures](#real-world-architectures)
+    - [Company architectures](#company-architectures)
+    - [Company engineering blogs](#company-engineering-blogs)
+      - [Source(s) and further reading](#sources-and-further-reading-15)
+  - [Under development](#under-development)
+  - [Credits](#credits)
+  - [Contact info](#contact-info)
+  - [License](#license)
 
 ## Study guide
 
@@ -269,7 +357,7 @@ Discuss potential solutions and trade-offs.  Everything is a trade-off.  Address
 
 You might be asked to do some estimates by hand.  Refer to the [Appendix](#appendix) for the following resources:
 
-* [Use back of the envelope calculations](http://highscalability.com/blog/2011/1/26/google-pro-tip-use-back-of-the-envelope-calculations-to-choo.html)
+* ~~[Use back of the envelope calculations](http://highscalability.com/blog/2011/1/26/google-pro-tip-use-back-of-the-envelope-calculations-to-choo.html)~~
 * [Powers of two table](#powers-of-two-table)
 * [Latency numbers every programmer should know](#latency-numbers-every-programmer-should-know)
 
@@ -278,8 +366,8 @@ You might be asked to do some estimates by hand.  Refer to the [Appendix](#appen
 Check out the following links to get a better idea of what to expect:
 
 * [How to ace a systems design interview](https://www.palantir.com/2011/10/how-to-rock-a-systems-design-interview/)
-* [The system design interview](http://www.hiredintech.com/system-design)
-* [Intro to Architecture and Systems Design Interviews](https://www.youtube.com/watch?v=ZgdS0EUmn70)
+* ~~[The system design interview](http://www.hiredintech.com/system-design)~~
+* ~~[Intro to Architecture and Systems Design Interviews](https://www.youtube.com/watch?v=ZgdS0EUmn70)~~
 
 ## System design interview questions with solutions
 
@@ -417,8 +505,8 @@ Another way to look at performance vs scalability:
 
 ### Source(s) and further reading
 
-* [A word on scalability](http://www.allthingsdistributed.com/2006/03/a_word_on_scalability.html)
-* [Scalability, availability, stability, patterns](http://www.slideshare.net/jboner/scalability-availability-stability-patterns/)
+* ~~[A word on scalability](http://www.allthingsdistributed.com/2006/03/a_word_on_scalability.html)~~
+* ~~[Scalability, availability, stability, patterns](http://www.slideshare.net/jboner/scalability-availability-stability-patterns/)~~
 
 ## Latency vs throughput
 
@@ -430,7 +518,7 @@ Generally, you should aim for **maximal throughput** with **acceptable latency**
 
 ### Source(s) and further reading
 
-* [Understanding latency vs throughput](https://community.cadence.com/cadence_blogs_8/b/sd/archive/2010/09/13/understanding-latency-vs-throughput)
+* ~~[Understanding latency vs throughput](https://community.cadence.com/cadence_blogs_8/b/sd/archive/2010/09/13/understanding-latency-vs-throughput)~~
 
 ## Availability vs consistency
 
@@ -464,7 +552,7 @@ AP is a good choice if the business needs allow for [eventual consistency](#even
 
 * [CAP theorem revisited](http://robertgreiner.com/2014/08/cap-theorem-revisited/)
 * [A plain english introduction to CAP theorem](http://ksat.me/a-plain-english-introduction-to-cap-theorem/)
-* [CAP FAQ](https://github.com/henryr/cap-faq)
+* ~~[CAP FAQ](https://github.com/henryr/cap-faq)~~
 
 ## Consistency patterns
 
@@ -490,7 +578,7 @@ This approach is seen in file systems and RDBMSes.  Strong consistency works wel
 
 ### Source(s) and further reading
 
-* [Transactions across data centers](http://snarfed.org/transactions_across_datacenters_io.html)
+* ~~[Transactions across data centers](http://snarfed.org/transactions_across_datacenters_io.html)~~
 
 ## Availability patterns
 
@@ -584,14 +672,14 @@ If both `Foo` and `Bar` each had 99.9% availability, their total availability in
 
 A Domain Name System (DNS) translates a domain name such as www.example.com to an IP address.
 
-DNS is hierarchical, with a few authoritative servers at the top level.  Your router or ISP provides information about which DNS server(s) to contact when doing a lookup.  Lower level DNS servers cache mappings, which could become stale due to DNS propagation delays.  DNS results can also be cached by your browser or OS for a certain period of time, determined by the [time to live (TTL)](https://en.wikipedia.org/wiki/Time_to_live).
+DNS is hierarchical, with a few authoritative servers at the top level.  Your router or ISP provides information about which DNS server(s) to contact when doing a lookup.  Lower level DNS servers cache mappings, which could become stale due to DNS propagation delays.  DNS results can also be cached by your browser or OS for a certain period of time, determined by the ~~[time to live (TTL)](https://en.wikipedia.org/wiki/Time_to_live)~~.
 
 * **NS record (name server)** - Specifies the DNS servers for your domain/subdomain.
 * **MX record (mail exchange)** - Specifies the mail servers for accepting messages.
 * **A record (address)** - Points a name to an IP address.
 * **CNAME (canonical)** - Points a name to another name or `CNAME` (example.com to www.example.com) or to an `A` record.
 
-Services such as [CloudFlare](https://www.cloudflare.com/dns/) and [Route 53](https://aws.amazon.com/route53/) provide managed DNS services.  Some DNS services can route traffic through various methods:
+Services such as ~~[CloudFlare](https://www.cloudflare.com/dns/) and [Route 53](https://aws.amazon.com/route53/)~~ provide managed DNS services.  Some DNS services can route traffic through various methods:
 
 * [Weighted round robin](http://g33kinfo.com/info/archives/2657)
     * Prevent traffic from going to servers under maintenance
@@ -603,14 +691,14 @@ Services such as [CloudFlare](https://www.cloudflare.com/dns/) and [Route 53](ht
 ### Disadvantage(s): DNS
 
 * Accessing a DNS server introduces a slight delay, although mitigated by caching described above.
-* DNS server management could be complex and is generally managed by [governments, ISPs, and large companies](http://superuser.com/questions/472695/who-controls-the-dns-servers/472729).
-* DNS services have recently come under [DDoS attack](http://dyn.com/blog/dyn-analysis-summary-of-friday-october-21-attack/), preventing users from accessing websites such as Twitter without knowing Twitter's IP address(es).
+* DNS server management could be complex and is generally managed by ~~[governments, ISPs, and large companies](http://superuser.com/questions/472695/who-controls-the-dns-servers/472729)~~.
+* DNS services have recently come under ~~[DDoS attack](http://dyn.com/blog/dyn-analysis-summary-of-friday-october-21-attack/)~~, preventing users from accessing websites such as Twitter without knowing Twitter's IP address(es).
 
 ### Source(s) and further reading
 
-* [DNS architecture](https://technet.microsoft.com/en-us/library/dd197427(v=ws.10).aspx)
-* [Wikipedia](https://en.wikipedia.org/wiki/Domain_Name_System)
-* [DNS articles](https://support.dnsimple.com/categories/dns/)
+* ~~[DNS architecture](https://technet.microsoft.com/en-us/library/dd197427(v=ws.10).aspx)~~
+* ~~[Wikipedia](https://en.wikipedia.org/wiki/Domain_Name_System)~~
+* ~~[DNS articles](https://support.dnsimple.com/categories/dns/)~~
 
 ## Content delivery network
 
@@ -649,9 +737,9 @@ Sites with heavy traffic work well with pull CDNs, as traffic is spread out more
 
 ### Source(s) and further reading
 
-* [Globally distributed content delivery](https://figshare.com/articles/Globally_distributed_content_delivery/6605972)
+* ~~[Globally distributed content delivery](https://figshare.com/articles/Globally_distributed_content_delivery/6605972)~~
 * [The differences between push and pull CDNs](http://www.travelblogadvice.com/technical/the-differences-between-push-and-pull-cdns/)
-* [Wikipedia](https://en.wikipedia.org/wiki/Content_delivery_network)
+* ~~[Wikipedia](https://en.wikipedia.org/wiki/Content_delivery_network)~~
 
 ## Load balancer
 
@@ -672,7 +760,7 @@ Load balancers can be implemented with hardware (expensive) or with software suc
 Additional benefits include:
 
 * **SSL termination** - Decrypt incoming requests and encrypt server responses so backend servers do not have to perform these potentially expensive operations
-    * Removes the need to install [X.509 certificates](https://en.wikipedia.org/wiki/X.509) on each server
+    * Removes the need to install ~~[X.509 certificates](https://en.wikipedia.org/wiki/X.509)~~ on each server
 * **Session persistence** - Issue cookies and route a specific client's requests to same instance if the web apps do not keep track of sessions
 
 To protect against failures, it's common to set up multiple load balancers, either in [active-passive](#active-passive) or [active-active](#active-active) mode.
@@ -688,7 +776,7 @@ Load balancers can route traffic based on various metrics, including:
 
 ### Layer 4 load balancing
 
-Layer 4 load balancers look at info at the [transport layer](#communication) to decide how to distribute requests.  Generally, this involves the source, destination IP addresses, and ports in the header, but not the contents of the packet.  Layer 4 load balancers forward network packets to and from the upstream server, performing [Network Address Translation (NAT)](https://www.nginx.com/resources/glossary/layer-4-load-balancing/).
+Layer 4 load balancers look at info at the [transport layer](#communication) to decide how to distribute requests.  Generally, this involves the source, destination IP addresses, and ports in the header, but not the contents of the packet.  Layer 4 load balancers forward network packets to and from the upstream server, performing ~~[Network Address Translation (NAT)](https://www.nginx.com/resources/glossary/layer-4-load-balancing/)~~.
 
 ### Layer 7 load balancing
 
@@ -715,13 +803,13 @@ Load balancers can also help with horizontal scaling, improving performance and 
 
 ### Source(s) and further reading
 
-* [NGINX architecture](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/)
-* [HAProxy architecture guide](http://www.haproxy.org/download/1.2/doc/architecture.txt)
-* [Scalability](http://www.lecloud.net/post/7295452622/scalability-for-dummies-part-1-clones)
-* [Wikipedia](https://en.wikipedia.org/wiki/Load_balancing_(computing))
-* [Layer 4 load balancing](https://www.nginx.com/resources/glossary/layer-4-load-balancing/)
-* [Layer 7 load balancing](https://www.nginx.com/resources/glossary/layer-7-load-balancing/)
-* [ELB listener config](http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html)
+* ~~[NGINX architecture](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/)~~
+* ~~[HAProxy architecture guide](http://www.haproxy.org/download/1.2/doc/architecture.txt)~~
+* ~~[Scalability](http://www.lecloud.net/post/7295452622/scalability-for-dummies-part-1-clones)~~
+* ~~[Wikipedia](https://en.wikipedia.org/wiki/Load_balancing_(computing))~~
+* ~~[Layer 4 load balancing](https://www.nginx.com/resources/glossary/layer-4-load-balancing/)~~
+* ~~[Layer 7 load balancing](https://www.nginx.com/resources/glossary/layer-7-load-balancing/)~~
+* ~~[ELB listener config](http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html)~~
 
 ## Reverse proxy (web server)
 
@@ -739,7 +827,7 @@ Additional benefits include:
 * **Increased security** - Hide information about backend servers, blacklist IPs, limit number of connections per client
 * **Increased scalability and flexibility** - Clients only see the reverse proxy's IP, allowing you to scale servers or change their configuration
 * **SSL termination** - Decrypt incoming requests and encrypt server responses so backend servers do not have to perform these potentially expensive operations
-    * Removes the need to install [X.509 certificates](https://en.wikipedia.org/wiki/X.509) on each server
+    * Removes the need to install ~~[X.509 certificates](https://en.wikipedia.org/wiki/X.509)~~ on each server
 * **Compression** - Compress server responses
 * **Caching** - Return the response for cached requests
 * **Static content** - Serve static content directly
@@ -762,8 +850,8 @@ Additional benefits include:
 ### Source(s) and further reading
 
 * [Reverse proxy vs load balancer](https://www.nginx.com/resources/glossary/reverse-proxy-vs-load-balancer/)
-* [NGINX architecture](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/)
-* [HAProxy architecture guide](http://www.haproxy.org/download/1.2/doc/architecture.txt)
+* ~~[NGINX architecture](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/)~~
+* ~~[HAProxy architecture guide](http://www.haproxy.org/download/1.2/doc/architecture.txt)~~
 * [Wikipedia](https://en.wikipedia.org/wiki/Reverse_proxy)
 
 ## Application layer
@@ -796,10 +884,10 @@ Systems such as [Consul](https://www.consul.io/docs/index.html), [Etcd](https://
 ### Source(s) and further reading
 
 * [Intro to architecting systems for scale](http://lethain.com/introduction-to-architecting-systems-for-scale)
-* [Crack the system design interview](http://www.puncsky.com/blog/2016-02-13-crack-the-system-design-interview)
-* [Service oriented architecture](https://en.wikipedia.org/wiki/Service-oriented_architecture)
+* ~~[Crack the system design interview](http://www.puncsky.com/blog/2016-02-13-crack-the-system-design-interview)~~
+* ~~[Service oriented architecture](https://en.wikipedia.org/wiki/Service-oriented_architecture)~~
 * [Introduction to Zookeeper](http://www.slideshare.net/sauravhaloi/introduction-to-apache-zookeeper)
-* [Here's what you need to know about building microservices](https://cloudncode.wordpress.com/2016/07/22/msa-getting-started/)
+* ~~[Here's what you need to know about building microservices](https://cloudncode.wordpress.com/2016/07/22/msa-getting-started/)~~
 
 ## Database
 
@@ -813,7 +901,7 @@ Systems such as [Consul](https://www.consul.io/docs/index.html), [Etcd](https://
 
 A relational database like SQL is a collection of data items organized in tables.
 
-**ACID** is a set of properties of relational database [transactions](https://en.wikipedia.org/wiki/Database_transaction).
+**ACID** is a set of properties of relational database ~~[transactions](https://en.wikipedia.org/wiki/Database_transaction)~~.
 
 * **Atomicity** - Each transaction is all or nothing
 * **Consistency** - Any transaction will bring the database from one valid state to another
@@ -864,8 +952,8 @@ Both masters serve reads and writes and coordinate with each other on writes.  I
 
 ##### Source(s) and further reading: replication
 
-* [Scalability, availability, stability, patterns](http://www.slideshare.net/jboner/scalability-availability-stability-patterns/)
-* [Multi-master replication](https://en.wikipedia.org/wiki/Multi-master_replication)
+* ~~[Scalability, availability, stability, patterns](http://www.slideshare.net/jboner/scalability-availability-stability-patterns/)~~
+* ~~[Multi-master replication](https://en.wikipedia.org/wiki/Multi-master_replication)~~
 
 #### Federation
 
@@ -881,12 +969,12 @@ Federation (or functional partitioning) splits up databases by function.  For ex
 
 * Federation is not effective if your schema requires huge functions or tables.
 * You'll need to update your application logic to determine which database to read and write.
-* Joining data from two databases is more complex with a [server link](http://stackoverflow.com/questions/5145637/querying-data-by-joining-two-tables-in-two-database-on-different-servers).
+* Joining data from two databases is more complex with a ~~[server link](http://stackoverflow.com/questions/5145637/querying-data-by-joining-two-tables-in-two-database-on-different-servers)~~.
 * Federation adds more hardware and additional complexity.
 
 ##### Source(s) and further reading: federation
 
-* [Scaling up to your first 10 million users](https://www.youtube.com/watch?v=w95murBkYmU)
+* ~~[Scaling up to your first 10 million users](https://www.youtube.com/watch?v=w95murBkYmU)~~
 
 #### Sharding
 
@@ -906,19 +994,19 @@ Common ways to shard a table of users is either through the user's last name ini
 
 * You'll need to update your application logic to work with shards, which could result in complex SQL queries.
 * Data distribution can become lopsided in a shard.  For example, a set of power users on a shard could result in increased load to that shard compared to others.
-    * Rebalancing adds additional complexity.  A sharding function based on [consistent hashing](http://www.paperplanes.de/2011/12/9/the-magic-of-consistent-hashing.html) can reduce the amount of transferred data.
+    * Rebalancing adds additional complexity.  A sharding function based on ~~[consistent hashing](http://www.paperplanes.de/2011/12/9/the-magic-of-consistent-hashing.html)~~(no need for the link, just follow jiuzhang) can reduce the amount of transferred data.
 * Joining data from multiple shards is more complex.
 * Sharding adds more hardware and additional complexity.
 
 ##### Source(s) and further reading: sharding
 
-* [The coming of the shard](http://highscalability.com/blog/2009/8/6/an-unorthodox-approach-to-database-design-the-coming-of-the.html)
-* [Shard database architecture](https://en.wikipedia.org/wiki/Shard_(database_architecture))
-* [Consistent hashing](http://www.paperplanes.de/2011/12/9/the-magic-of-consistent-hashing.html)
+* ~~[The coming of the shard](http://highscalability.com/blog/2009/8/6/an-unorthodox-approach-to-database-design-the-coming-of-the.html)~~
+* ~~[Shard database architecture](https://en.wikipedia.org/wiki/Shard_(database_architecture))~~
+* ~~[Consistent hashing](http://www.paperplanes.de/2011/12/9/the-magic-of-consistent-hashing.html)~~
 
 #### Denormalization
 
-Denormalization attempts to improve read performance at the expense of some write performance.  Redundant copies of the data are written in multiple tables to avoid expensive joins.  Some RDBMS such as [PostgreSQL](https://en.wikipedia.org/wiki/PostgreSQL) and Oracle support [materialized views](https://en.wikipedia.org/wiki/Materialized_view) which handle the work of storing redundant information and keeping redundant copies consistent.
+Denormalization attempts to improve read performance at the expense of some write performance.  Redundant copies of the data are written in multiple tables to avoid expensive joins.  Some RDBMS such as ~~[PostgreSQL](https://en.wikipedia.org/wiki/PostgreSQL) and Oracle support [materialized views](https://en.wikipedia.org/wiki/Materialized_view)~~ which handle the work of storing redundant information and keeping redundant copies consistent.
 
 Once data becomes distributed with techniques such as [federation](#federation) and [sharding](#sharding), managing joins across data centers further increases complexity.  Denormalization might circumvent the need for such complex joins.
 
@@ -934,55 +1022,55 @@ In most systems, reads can heavily outnumber writes 100:1 or even 1000:1.  A rea
 
 * [Denormalization](https://en.wikipedia.org/wiki/Denormalization)
 
-#### SQL tuning
+#### ~~SQL tuning~~ 
+Just skip this whole chapter
+>SQL tuning is a broad topic and many [books](https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=sql+tuning) have been written as reference.
 
-SQL tuning is a broad topic and many [books](https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=sql+tuning) have been written as reference.
+>It's important to **benchmark** and **profile** to simulate and uncover bottlenecks.
 
-It's important to **benchmark** and **profile** to simulate and uncover bottlenecks.
+>* **Benchmark** - Simulate high-load situations with tools such as [ab](http://httpd.apache.org/docs/2.2/programs/ab.html).
+>* **Profile** - Enable tools such as the [slow query log](http://dev.mysql.com/doc/refman/5.7/en/slow-query-log.html) to help track performance issues.
 
-* **Benchmark** - Simulate high-load situations with tools such as [ab](http://httpd.apache.org/docs/2.2/programs/ab.html).
-* **Profile** - Enable tools such as the [slow query log](http://dev.mysql.com/doc/refman/5.7/en/slow-query-log.html) to help track performance issues.
+>Benchmarking and profiling might point you to the following optimizations.
 
-Benchmarking and profiling might point you to the following optimizations.
+>##### Tighten up the schema
 
-##### Tighten up the schema
-
-* MySQL dumps to disk in contiguous blocks for fast access.
-* Use `CHAR` instead of `VARCHAR` for fixed-length fields.
+>* MySQL dumps to disk in contiguous blocks for fast access.
+>* Use `CHAR` instead of `VARCHAR` for fixed-length fields.
     * `CHAR` effectively allows for fast, random access, whereas with `VARCHAR`, you must find the end of a string before moving onto the next one.
-* Use `TEXT` for large blocks of text such as blog posts.  `TEXT` also allows for boolean searches.  Using a `TEXT` field results in storing a pointer on disk that is used to locate the text block.
-* Use `INT` for larger numbers up to 2^32 or 4 billion.
-* Use `DECIMAL` for currency to avoid floating point representation errors.
-* Avoid storing large `BLOBS`, store the location of where to get the object instead.
-* `VARCHAR(255)` is the largest number of characters that can be counted in an 8 bit number, often maximizing the use of a byte in some RDBMS.
-* Set the `NOT NULL` constraint where applicable to [improve search performance](http://stackoverflow.com/questions/1017239/how-do-null-values-affect-performance-in-a-database-search).
+>* Use `TEXT` for large blocks of text such as blog posts.  `TEXT` also allows for boolean searches.  Using a `TEXT` field results in storing a pointer on disk that is used to locate the text block.
+>* Use `INT` for larger numbers up to 2^32 or 4 billion.
+>* Use `DECIMAL` for currency to avoid floating point representation errors.
+>* Avoid storing large `BLOBS`, store the location of where to get the object instead.
+>* `VARCHAR(255)` is the largest number of characters that can be counted in an 8 bit number, often maximizing the use of a byte in some RDBMS.
+>* Set the `NOT NULL` constraint where applicable to [improve search performance](http://stackoverflow.com/questions/1017239/how-do-null-values-affect-performance-in-a-database-search).
 
-##### Use good indices
+>##### Use good indices
 
-* Columns that you are querying (`SELECT`, `GROUP BY`, `ORDER BY`, `JOIN`) could be faster with indices.
-* Indices are usually represented as self-balancing [B-tree](https://en.wikipedia.org/wiki/B-tree) that keeps data sorted and allows searches, sequential access, insertions, and deletions in logarithmic time.
-* Placing an index can keep the data in memory, requiring more space.
-* Writes could also be slower since the index also needs to be updated.
-* When loading large amounts of data, it might be faster to disable indices, load the data, then rebuild the indices.
+>* Columns that you are querying (`SELECT`, `GROUP BY`, `ORDER BY`, `JOIN`) could be faster with indices.
+>* Indices are usually represented as self-balancing [B-tree](https://en.wikipedia.org/wiki/B-tree) that keeps data sorted and allows searches, sequential access, insertions, and deletions in logarithmic time.
+>* Placing an index can keep the data in memory, requiring more space.
+>* Writes could also be slower since the index also needs to be updated.
+>* When loading large amounts of data, it might be faster to disable indices, load the data, then rebuild the indices.
 
-##### Avoid expensive joins
+>##### Avoid expensive joins
 
-* [Denormalize](#denormalization) where performance demands it.
+>* [Denormalize](#denormalization) where performance demands it.
 
-##### Partition tables
+>##### Partition tables
 
-* Break up a table by putting hot spots in a separate table to help keep it in memory.
+>* Break up a table by putting hot spots in a separate table to help keep it in memory.
 
-##### Tune the query cache
+>##### Tune the query cache
 
-* In some cases, the [query cache](https://dev.mysql.com/doc/refman/5.7/en/query-cache.html) could lead to [performance issues](https://www.percona.com/blog/2016/10/12/mysql-5-7-performance-tuning-immediately-after-installation/).
+>* In some cases, the [query cache](https://dev.mysql.com/doc/refman/5.7/en/query-cache.html) could lead to [performance issues](https://www.percona.com/blog/2016/10/12/mysql-5-7-performance-tuning-immediately-after-installation/).
 
-##### Source(s) and further reading: SQL tuning
+>##### Source(s) and further reading: SQL tuning
 
-* [Tips for optimizing MySQL queries](http://aiddroid.com/10-tips-optimizing-mysql-queries-dont-suck/)
-* [Is there a good reason i see VARCHAR(255) used so often?](http://stackoverflow.com/questions/1217466/is-there-a-good-reason-i-see-varchar255-used-so-often-as-opposed-to-another-l)
-* [How do null values affect performance?](http://stackoverflow.com/questions/1017239/how-do-null-values-affect-performance-in-a-database-search)
-* [Slow query log](http://dev.mysql.com/doc/refman/5.7/en/slow-query-log.html)
+>* [Tips for optimizing MySQL queries](http://aiddroid.com/10-tips-optimizing-mysql-queries-dont-suck/)
+>* [Is there a good reason i see VARCHAR(255) used so often?](http://stackoverflow.com/questions/1217466/is-there-a-good-reason-i-see-varchar255-used-so-often-as-opposed-to-another-l)
+>* [How do null values affect performance?](http://stackoverflow.com/questions/1017239/how-do-null-values-affect-performance-in-a-database-search)
+>* [Slow query log](http://dev.mysql.com/doc/refman/5.7/en/slow-query-log.html)
 
 ### NoSQL
 
@@ -1008,8 +1096,8 @@ A key-value store is the basis for more complex systems such as a document store
 
 ##### Source(s) and further reading: key-value store
 
-* [Key-value database](https://en.wikipedia.org/wiki/Key-value_database)
-* [Disadvantages of key-value stores](http://stackoverflow.com/questions/4056093/what-are-the-disadvantages-of-using-a-key-value-table-over-nullable-columns-or)
+* ~~[Key-value database](https://en.wikipedia.org/wiki/Key-value_database)~~
+* ~~[Disadvantages of key-value stores](http://stackoverflow.com/questions/4056093/what-are-the-disadvantages-of-using-a-key-value-table-over-nullable-columns-or)~~
 * [Redis architecture](http://qnimate.com/overview-of-redis-architecture/)
 * [Memcached architecture](https://www.adayinthelifeof.nl/2011/02/06/memcache-internals/)
 
@@ -1027,10 +1115,10 @@ Document stores provide high flexibility and are often used for working with occ
 
 ##### Source(s) and further reading: document store
 
-* [Document-oriented database](https://en.wikipedia.org/wiki/Document-oriented_database)
-* [MongoDB architecture](https://www.mongodb.com/mongodb-architecture)
-* [CouchDB architecture](https://blog.couchdb.org/2016/08/01/couchdb-2-0-architecture/)
-* [Elasticsearch architecture](https://www.elastic.co/blog/found-elasticsearch-from-the-bottom-up)
+* ~~[Document-oriented database](https://en.wikipedia.org/wiki/Document-oriented_database)~~
+* ~~[MongoDB architecture](https://www.mongodb.com/mongodb-architecture)~~
+* ~~[CouchDB architecture](https://blog.couchdb.org/2016/08/01/couchdb-2-0-architecture/)~~
+* ~~[Elasticsearch architecture](https://www.elastic.co/blog/found-elasticsearch-from-the-bottom-up)~~
 
 #### Wide column store
 
@@ -1044,19 +1132,20 @@ Document stores provide high flexibility and are often used for working with occ
 
 A wide column store's basic unit of data is a column (name/value pair).  A column can be grouped in column families (analogous to a SQL table).  Super column families further group column families.  You can access each column independently with a row key, and columns with the same row key form a row.  Each value contains a timestamp for versioning and for conflict resolution.
 
-Google introduced [Bigtable](http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/chang06bigtable.pdf) as the first wide column store, which influenced the open-source [HBase](https://www.mapr.com/blog/in-depth-look-hbase-architecture) often-used in the Hadoop ecosystem, and [Cassandra](http://docs.datastax.com/en/cassandra/3.0/cassandra/architecture/archIntro.html) from Facebook.  Stores such as BigTable, HBase, and Cassandra maintain keys in lexicographic order, allowing efficient retrieval of selective key ranges.
+Google introduced ~~[Bigtable](http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/chang06bigtable.pdf)~~ as the first wide column store, which influenced the open-source ~~[HBase](https://www.mapr.com/blog/in-depth-look-hbase-architecture)~~ often-used in the Hadoop ecosystem, and ~~[Cassandra](http://docs.datastax.com/en/cassandra/3.0/cassandra/architecture/archIntro.html)~~ from Facebook.  Stores such as BigTable, HBase, and Cassandra maintain keys in lexicographic order, allowing efficient retrieval of selective key ranges.
 
 Wide column stores offer high availability and high scalability.  They are often used for very large data sets.
 
 ##### Source(s) and further reading: wide column store
 
-* [SQL & NoSQL, a brief history](http://blog.grio.com/2015/11/sql-nosql-a-brief-history.html)
-* [Bigtable architecture](http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/chang06bigtable.pdf)
-* [HBase architecture](https://www.mapr.com/blog/in-depth-look-hbase-architecture)
-* [Cassandra architecture](http://docs.datastax.com/en/cassandra/3.0/cassandra/architecture/archIntro.html)
+* ~~[SQL & NoSQL, a brief history](http://blog.grio.com/2015/11/sql-nosql-a-brief-history.html)~~
+* ~~[Bigtable architecture](http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/chang06bigtable.pdf)~~
+* ~~[HBase architecture](https://www.mapr.com/blog/in-depth-look-hbase-architecture)~~
+* ~~[Cassandra architecture](http://docs.datastax.com/en/cassandra/3.0/cassandra/architecture/archIntro.html)~~
 
-#### Graph database
-
+#### ~~Graph database~~
+Skip
+>
 <p align="center">
   <img src="http://i.imgur.com/fNcl65g.png"/>
   <br/>
@@ -1065,15 +1154,15 @@ Wide column stores offer high availability and high scalability.  They are often
 
 > Abstraction: graph
 
-In a graph database, each node is a record and each arc is a relationship between two nodes.  Graph databases are optimized to represent complex relationships with many foreign keys or many-to-many relationships.
+>In a graph database, each node is a record and each arc is a relationship between two nodes.  Graph databases are optimized to represent complex relationships with many foreign keys or many-to-many relationships.
 
-Graphs databases offer high performance for data models with complex relationships, such as a social network.  They are relatively new and are not yet widely-used; it might be more difficult to find development tools and resources.  Many graphs can only be accessed with [REST APIs](#representational-state-transfer-rest).
+>Graphs databases offer high performance for data models with complex relationships, such as a social network.  They are relatively new and are not yet widely-used; it might be more difficult to find development tools and resources.  Many graphs can only be accessed with [REST APIs](#representational-state-transfer-rest).
 
-##### Source(s) and further reading: graph
+>##### Source(s) and further reading: graph
 
-* [Graph database](https://en.wikipedia.org/wiki/Graph_database)
-* [Neo4j](https://neo4j.com/)
-* [FlockDB](https://blog.twitter.com/2010/introducing-flockdb)
+>* [Graph database](https://en.wikipedia.org/wiki/Graph_database)
+>* [Neo4j](https://neo4j.com/)
+>* [FlockDB](https://blog.twitter.com/2010/introducing-flockdb)
 
 #### Source(s) and further reading: NoSQL
 
@@ -1147,7 +1236,7 @@ Caches can be located on the client side (OS or browser), [server side](#reverse
 
 ### Web server caching
 
-[Reverse proxies](#reverse-proxy-web-server) and caches such as [Varnish](https://www.varnish-cache.org/) can serve static and dynamic content directly.  Web servers can also cache requests, returning responses without having to contact application servers.
+[Reverse proxies](#reverse-proxy-web-server) and caches such as ~~[Varnish](https://www.varnish-cache.org/)~~ can serve static and dynamic content directly.  Web servers can also cache requests, returning responses without having to contact application servers.
 
 ### Database caching
 
@@ -1155,7 +1244,7 @@ Your database usually includes some level of caching in a default configuration,
 
 ### Application caching
 
-In-memory caches such as Memcached and Redis are key-value stores between your application and your data storage.  Since the data is held in RAM, it is much faster than typical databases where data is stored on disk.  RAM is more limited than disk, so [cache invalidation](https://en.wikipedia.org/wiki/Cache_algorithms) algorithms such as [least recently used (LRU)](https://en.wikipedia.org/wiki/Cache_algorithms#Least_Recently_Used) can help invalidate 'cold' entries and keep 'hot' data in RAM.
+In-memory caches such as Memcached and Redis are key-value stores between your application and your data storage.  Since the data is held in RAM, it is much faster than typical databases where data is stored on disk.  RAM is more limited than disk, so ~~[cache invalidation](https://en.wikipedia.org/wiki/Cache_algorithms)~~ algorithms such as ~~[least recently used (LRU)](https://en.wikipedia.org/wiki/Cache_algorithms#Least_Recently_Used)~~ can help invalidate 'cold' entries and keep 'hot' data in RAM.
 
 Redis has the following additional features:
 
@@ -1222,7 +1311,7 @@ def get_user(self, user_id):
     return user
 ```
 
-[Memcached](https://memcached.org/) is generally used in this manner.
+~~[Memcached](https://memcached.org/)~~ is generally used in this manner.
 
 Subsequent reads of data added to cache are fast.  Cache-aside is also referred to as lazy loading.  Only requested data is cached, which avoids filling up the cache with data that isn't requested.
 
@@ -1303,19 +1392,26 @@ Refresh-ahead can result in reduced latency vs read-through if the cache can acc
 
 ### Disadvantage(s): cache
 
-* Need to maintain consistency between caches and the source of truth such as the database through [cache invalidation](https://en.wikipedia.org/wiki/Cache_algorithms).
+* Need to maintain consistency between caches and the source of truth such as the database through ~~[cache invalidation](https://en.wikipedia.org/wiki/Cache_algorithms)~~.
 * Cache invalidation is a difficult problem, there is additional complexity associated with when to update the cache.
 * Need to make application changes such as adding Redis or memcached.
 
 ### Source(s) and further reading
 
-* [From cache to in-memory data grid](http://www.slideshare.net/tmatyashovsky/from-cache-to-in-memory-data-grid-introduction-to-hazelcast)
-* [Scalable system design patterns](http://horicky.blogspot.com/2010/10/scalable-system-design-patterns.html)
-* [Introduction to architecting systems for scale](http://lethain.com/introduction-to-architecting-systems-for-scale/)
-* [Scalability, availability, stability, patterns](http://www.slideshare.net/jboner/scalability-availability-stability-patterns/)
-* [Scalability](http://www.lecloud.net/post/9246290032/scalability-for-dummies-part-3-cache)
-* [AWS ElastiCache strategies](http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/Strategies.html)
-* [Wikipedia](https://en.wikipedia.org/wiki/Cache_(computing))
+* ~~[From cache to in-memory data grid](http://www.slideshare.net/tmatyashovsky/from-cache-to-in-memory-data-grid-introduction-to-hazelcast)~~
+* ~~[Scalable system design patterns](http://horicky.blogspot.com/2010/10/scalable-system-design-patterns.html)~~
+* ~~[Introduction to architecting systems for scale](http://lethain.com/introduction-to-architecting-systems-for-scale/)~~
+* ~~[Scalability, availability, stability, patterns](http://www.slideshare.net/jboner/scalability-availability-stability-patterns/)~~
+* ~~[Scalability](http://www.lecloud.net/post/9246290032/scalability-for-dummies-part-3-cache)~~
+* ~~[AWS ElastiCache strategies](http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/Strategies.html)~~
+* ~~[Wikipedia](https://en.wikipedia.org/wiki/Cache_(computing))~~
+
+---
+# ***Everything after here is optional***
+# ***Everything after here is optional***
+# ***Everything after here is optional***
+# ***Everything after here is optional***
+---
 
 ## Asynchronism
 
